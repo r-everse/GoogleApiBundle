@@ -7,13 +7,12 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * This is the class that validates and merges configuration from your app/config files
- *
+ * This is the class that validates and merges configuration from your app/config files.
  */
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
@@ -43,12 +42,10 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-
     /**
-     * Add the service section
+     * Add the service section.
      *
      * @param ArrayNodeDefinition $rootNode
-     *
      */
     private function addServicesSection(ArrayNodeDefinition $rootNode)
     {
@@ -65,10 +62,10 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('scope')
                         ->prototype('scalar')->end()
                         ->isRequired()
-                        ->defaultValue(array(
-                                  "https://www.googleapis.com/auth/calendar",
-                                  "https://www.googleapis.com/auth/calendar.readonly",
-                              ))
+                        ->defaultValue([
+                                  'https://www.googleapis.com/auth/calendar',
+                                  'https://www.googleapis.com/auth/calendar.readonly',
+                              ])
                         ->cannotBeEmpty()
                     ->end()
                  ->end()->end()
@@ -84,10 +81,10 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('scope')
                         ->prototype('scalar')->end()
                         ->isRequired()
-                        ->defaultValue(array(
+                        ->defaultValue([
                                   'https://www.googleapis.com/auth/latitude.all.best',
                                   'https://www.googleapis.com/auth/latitude.all.city',
-                              ))
+                              ])
                         ->cannotBeEmpty()
                     ->end()
                  ->end()->end()
@@ -103,10 +100,10 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('scope')
                         ->prototype('scalar')->end()
                         ->isRequired()
-                        ->defaultValue(array(
+                        ->defaultValue([
                                   'https://www.googleapis.com/auth/userinfo.profile',
                                   'https://www.googleapis.com/auth/userinfo.email',
-                              ))
+                              ])
                         ->cannotBeEmpty()
                     ->end()
                  ->end()->end()

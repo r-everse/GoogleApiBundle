@@ -1,8 +1,9 @@
 <?php
+
 namespace HappyR\Google\ApiBundle\Services;
 
 /**
- * Class SlidesService
+ * Class SlidesService.
  *
  * This is the class that communicates with Slides api
  */
@@ -14,7 +15,8 @@ class SlidesService extends \Google_Service_Slides
     public $client;
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param GoogleClient $client
      */
     public function __construct(GoogleClient $client)
@@ -24,9 +26,10 @@ class SlidesService extends \Google_Service_Slides
     }
 
     /**
-     * Get a Presentation
+     * Get a Presentation.
      *
      * @param string $presentationId
+     *
      * @return \Google_Service_Slides_Presentation
      */
     public function getPresentation($presentationId)
@@ -35,9 +38,10 @@ class SlidesService extends \Google_Service_Slides
     }
 
     /**
-     * Get the presentation URL
+     * Get the presentation URL.
      *
      * @param string $presentationId
+     *
      * @return string
      */
     public function getUrl($presentationId)
@@ -46,12 +50,13 @@ class SlidesService extends \Google_Service_Slides
     }
 
     /**
-     * UpdateTextStyleRequest
+     * UpdateTextStyleRequest.
      *
      * @param $objectId
      * @param null $fontFamily
      * @param null $fontSize
      * @param null $foregroundColor
+     *
      * @return \Google_Service_Slides_Request
      */
     public function generateUpdateTextStyleRequest(
@@ -81,12 +86,14 @@ class SlidesService extends \Google_Service_Slides
         if ($fields) {
             $params['fields'] = implode(',', $fields);
         }
+
         return new \Google_Service_Slides_Request(['updateTextStyle' => $params]);
     }
 
     /**
      * @param $objectId
      * @param $color
+     *
      * @return \Google_Service_Slides_Request
      */
     public function generateUpdateShapePropertiesRequest($objectId, $color)
@@ -95,15 +102,15 @@ class SlidesService extends \Google_Service_Slides
             [
                 'updateShapeProperties' => [
                     'objectId' => $objectId,
-                    "fields" => "shapeBackgroundFill.solidFill.color",
-                    "shapeProperties" => [
-                        "shapeBackgroundFill" => [
-                            "solidFill" => [
-                                "color" => $color
-                            ]
-                        ]
-                    ]
-                ]
+                    'fields' => 'shapeBackgroundFill.solidFill.color',
+                    'shapeProperties' => [
+                        'shapeBackgroundFill' => [
+                            'solidFill' => [
+                                'color' => $color,
+                            ],
+                        ],
+                    ],
+                ],
             ]
         );
     }
@@ -112,23 +119,26 @@ class SlidesService extends \Google_Service_Slides
      * @param $placeholder
      * @param $text
      * @param $pageObjectIds
+     *
      * @return \Google_Service_Slides_Request
      */
     public function generateReplaceAllTextRequest($placeholder, $text, $pageObjectIds = null)
     {
         $params = [
             'containsText' => ['text' => $placeholder],
-            'replaceText' => sprintf('%s', $text)
+            'replaceText' => sprintf('%s', $text),
         ];
         if ($pageObjectIds) {
             $params['pageObjectIds'] = $pageObjectIds;
         }
+
         return new \Google_Service_Slides_Request(['replaceAllText' => $params]);
     }
 
     /**
      * @param $originSlideObjectId
      * @param $destinationSlideObjectId
+     *
      * @return \Google_Service_Slides_Request
      */
     public function generateDuplicateSlideRequest($originSlideObjectId, $destinationSlideObjectId)
@@ -137,16 +147,17 @@ class SlidesService extends \Google_Service_Slides
             [
                 'duplicateObject' => [
                     'objectId' => $originSlideObjectId,
-                    "objectIds" => [
-                        $originSlideObjectId => $destinationSlideObjectId
-                    ]
-                ]
+                    'objectIds' => [
+                        $originSlideObjectId => $destinationSlideObjectId,
+                    ],
+                ],
             ]
         );
     }
 
     /**
      * @param $objectId
+     *
      * @return \Google_Service_Slides_Request
      */
     public function generateDeleteObjectRequest($objectId)
@@ -154,8 +165,8 @@ class SlidesService extends \Google_Service_Slides
         return new \Google_Service_Slides_Request(
             [
                 'deleteObject' => [
-                    'objectId' => $objectId
-                ]
+                    'objectId' => $objectId,
+                ],
             ]
         );
     }
@@ -169,6 +180,7 @@ class SlidesService extends \Google_Service_Slides
      * @param $shearY
      * @param $translateX
      * @param $translateY
+     *
      * @return \Google_Service_Slides_Request
      */
     public function generateUpdatePageElementTransformRequest(
@@ -183,19 +195,19 @@ class SlidesService extends \Google_Service_Slides
     ) {
         return new \Google_Service_Slides_Request(
             [
-                "updatePageElementTransform" => [
-                    "objectId" => $objectId,
-                    "applyMode" => $applyMode,
-                    "transform" => [
-                        "scaleX" => $scaleX,
-                        "scaleY" => $scaleY,
-                        "shearX" => $shearX,
-                        "shearY" => $shearY,
-                        "translateX" => $translateX,
-                        "translateY" => $translateY,
-                        "unit" => "EMU"
-                    ]
-                ]
+                'updatePageElementTransform' => [
+                    'objectId' => $objectId,
+                    'applyMode' => $applyMode,
+                    'transform' => [
+                        'scaleX' => $scaleX,
+                        'scaleY' => $scaleY,
+                        'shearX' => $shearX,
+                        'shearY' => $shearY,
+                        'translateX' => $translateX,
+                        'translateY' => $translateY,
+                        'unit' => 'EMU',
+                    ],
+                ],
             ]
         );
     }
@@ -203,6 +215,7 @@ class SlidesService extends \Google_Service_Slides
     /**
      * @param \Google_Service_Slides_Request[] $requests
      * @param $presentationId
+     *
      * @return \Google_Service_Slides_BatchUpdatePresentationResponse
      */
     public function batchUpdate(array $requests, $presentationId)
@@ -210,6 +223,7 @@ class SlidesService extends \Google_Service_Slides
         $batchUpdatePresentationRequest = new \Google_Service_Slides_BatchUpdatePresentationRequest(
             ['requests' => $requests]
         );
+
         return $this->presentations->batchUpdate($presentationId, $batchUpdatePresentationRequest);
     }
 }

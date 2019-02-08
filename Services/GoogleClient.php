@@ -5,7 +5,7 @@ namespace HappyR\Google\ApiBundle\Services;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class GoogleClient
+ * Class GoogleClient.
  *
  * This is the google client that is used by almost every api
  */
@@ -36,13 +36,13 @@ class GoogleClient
             }
         }
 
-        $client -> setApplicationName($config['application_name']);
-        $client -> setClientId($config['oauth2_client_id']);
-        $client -> setClientSecret($config['oauth2_client_secret']);
-        $client -> setRedirectUri($config['oauth2_redirect_uri']);
-        $client -> setDeveloperKey($config['developer_key']);
+        $client->setApplicationName($config['application_name']);
+        $client->setClientId($config['oauth2_client_id']);
+        $client->setClientSecret($config['oauth2_client_secret']);
+        $client->setRedirectUri($config['oauth2_redirect_uri']);
+        $client->setDeveloperKey($config['developer_key']);
 
-        $this -> client = $client;
+        $this->client = $client;
     }
 
     /**
@@ -58,7 +58,7 @@ class GoogleClient
      */
     public function setAccessToken($accessToken)
     {
-        $this -> client -> setAccessToken($accessToken);
+        $this->client->setAccessToken($accessToken);
     }
 
     /**
@@ -71,6 +71,7 @@ class GoogleClient
 
     /**
      * Construct the OAuth 2.0 authorization request URI.
+     *
      * @return string
      */
     public function createAuthUrl()
@@ -80,9 +81,10 @@ class GoogleClient
 
     /**
      * Get the OAuth 2.0 access token.
+     *
      * @return string $accessToken JSON encoded string in the following format:
-     * {"access_token":"TOKEN", "refresh_token":"TOKEN", "token_type":"Bearer",
-     *  "expires_in":3600,"id_token":"TOKEN", "created":1320790426}
+     *                {"access_token":"TOKEN", "refresh_token":"TOKEN", "token_type":"Bearer",
+     *                "expires_in":3600,"id_token":"TOKEN", "created":1320790426}
      */
     public function getAccessToken()
     {
@@ -91,7 +93,8 @@ class GoogleClient
 
     /**
      * Returns if the access_token is expired.
-     * @return bool Returns True if the access_token is expired.
+     *
+     * @return bool returns True if the access_token is expired
      */
     public function isAccessTokenExpired()
     {

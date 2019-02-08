@@ -3,7 +3,7 @@
 namespace HappyR\Google\ApiBundle\Services;
 
 /**
- * Class DriveService
+ * Class DriveService.
  *
  * This is the class that communicates with Drive api
  */
@@ -15,7 +15,8 @@ class DriveService extends \Google_Service_Drive
     public $client;
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param GoogleClient $client
      */
     public function __construct(GoogleClient $client)
@@ -27,6 +28,7 @@ class DriveService extends \Google_Service_Drive
     /**
      * @param $presentationOriginId
      * @param $name
+     *
      * @return \Google_Service_Drive_DriveFile
      */
     public function copy($presentationOriginId, $name)
@@ -42,6 +44,7 @@ class DriveService extends \Google_Service_Drive
      * @param $type
      * @param $role
      * @param $value
+     *
      * @return \Google_Service_Drive_Permission
      */
     public function addPermission($fileId, $type, $role, $value)
@@ -60,7 +63,7 @@ class DriveService extends \Google_Service_Drive
         return $this->permissions->create(
             $fileId,
             new \Google_Service_Drive_Permission($permissions),
-            array('fields' => 'id')
+            ['fields' => 'id']
         );
     }
 }
