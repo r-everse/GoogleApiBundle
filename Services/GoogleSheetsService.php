@@ -51,6 +51,17 @@ class GoogleSheetsService
         $this->spreadsheets->clearRow($sheet, $row);
     }
 
+    public function write($value, $range, $optParams = [])
+    {
+        $this->spreadsheets->write($value, $range, $optParams);
+    }
+
+
+    public function clear($range)
+    {
+        $this->spreadsheets->clear($range);
+    }
+
     /**
      * @return GoogleSheetsClient
      */
