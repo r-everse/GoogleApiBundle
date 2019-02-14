@@ -2,8 +2,10 @@
 
 namespace HappyR\Google\ApiBundle\DependencyInjection;
 
+use HappyR\Google\ApiBundle\Services\GoogleClient;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -22,9 +24,25 @@ class HappyRGoogleApiExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('happy_r_google_api', $config);
+        $this->loadClients($config['clients'], $container);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+    }
+
+    private function loadClients(array $clients, ContainerBuilder $container)
+    {
+        $first = true;
+        foreach ($clients as $name => $client) {
+            if ($first) {
+                $container->setParameter('happy_r_google_api', $client);
+                $first = false;
+            }
+
+            $clientId = sprintf("happyr.google.api.%s.client", $name);
+
+            $clientDef = new Definition(GoogleClient::class, [$client]);
+            $container->setDefinition($clientId, $clientDef);
+        }
     }
 }
