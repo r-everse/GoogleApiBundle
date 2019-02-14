@@ -40,9 +40,9 @@ class GoogleSheetsService
         return $this->spreadsheets !== null;
     }
 
-    public function writeRow($value, $sheet, $row, $optParams = [])
+    public function updateRow($value, $sheet, $row, $optParams = [])
     {
-        $this->spreadsheets->writeRow($value, $sheet, $row, $optParams);
+        $this->spreadsheets->updateRow($value, $sheet, $row, $optParams);
     }
 
 
@@ -51,11 +51,15 @@ class GoogleSheetsService
         $this->spreadsheets->clearRow($sheet, $row);
     }
 
-    public function write($value, $range, $optParams = [])
+    public function update($value, $range, $optParams = [])
     {
-        $this->spreadsheets->write($value, $range, $optParams);
+        $this->spreadsheets->update($value, $range, $optParams);
     }
 
+    public function append($value, $range, $optParams = [])
+    {
+        $this->spreadsheets->append($value, $range, $optParams);
+    }
 
     public function clear($range)
     {
