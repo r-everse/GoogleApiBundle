@@ -66,6 +66,16 @@ class GoogleSheetsService
         $this->spreadsheets->clear($range);
     }
 
+    public function get($range)
+    {
+        return $this->spreadsheets->get($range);
+    }
+
+    public function delete($dimension, $sheet, $startIndex, $endIndex)
+    {
+        $this->spreadsheets->delete($dimension, $sheet, $startIndex, $endIndex);
+    }
+
     /**
      * @return GoogleSheetsClient
      */
