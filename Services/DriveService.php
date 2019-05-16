@@ -2,6 +2,8 @@
 
 namespace HappyR\Google\ApiBundle\Services;
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * Class DriveService
  *
@@ -25,26 +27,58 @@ class DriveService extends \Google_Service_Drive
     }
 
     /**
-     * @param $presentationOriginId
+     * @param $fileId
      * @param $name
      * @return \Google_Service_Drive_DriveFile
      */
-    public function copy($presentationOriginId, $name)
+    public function copy($fileId, $name)
     {
         return $this->files->copy(
-            $presentationOriginId,
+            $fileId,
             new \Google_Service_Drive_DriveFile(['name' => $name])
         );
     }
 
     /**
      * @param $fileId
+     * @param $permission
+     * @return \Google_Service_Drive_Permission
+     */
+    public function addPermission($fileId, $permission)
+    {
+        return $this->permissions->create(
+            $fileId,
+            new \Google_Service_Drive_Permission($permission),
+            array('fields' => 'id')
+        );
+    }
+
+    /**
+     * @param $fileId
+     * @param $permissionId
+     * @return ResponseInterface
+     */
+    public function deletePermission($fileId, $permissionId)
+    {
+        return $this->permissions->delete($fileId, $permissionId);
+    }
+
+    /**
+     * @param $presentationId
+     * @return \Google_Service_Drive_PermissionList
+     */
+    public function listPermissions($presentationId)
+    {
+        return $this->permissions->listPermissions($presentationId);
+    }
+
+    /**
      * @param $type
      * @param $role
      * @param $value
-     * @return \Google_Service_Drive_Permission
+     * @return array
      */
-    public function addPermission($fileId, $type, $role, $value)
+    public function preparePermission($type, $role, $value = null)
     {
         $permissions = ['type' => $type, 'role' => $role];
 
@@ -53,14 +87,16 @@ class DriveService extends \Google_Service_Drive
                 $permissions['domain'] = $value;
                 break;
             case 'user':
-            default:
                 $permissions['emailAddress'] = $value;
+                break;
+            case 'group':
+                // @todo
+                break;
+            case 'anyone':
+            default:
+                break;
         }
 
-        return $this->permissions->create(
-            $fileId,
-            new \Google_Service_Drive_Permission($permissions),
-            array('fields' => 'id')
-        );
+        return $permissions;
     }
 }
